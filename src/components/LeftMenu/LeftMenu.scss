@@ -1,0 +1,31 @@
+nav {
+  background-color: var(--background-color-contentLarge);
+  display: flex;
+  flex-direction: column;
+  width: 230px;
+  height: 100vh;
+  padding-top: 20px;
+  .logOut {
+    align-self: flex-end;
+  }
+  img {
+    height: 100px;
+    width: 100px;
+    align-self: center;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    li {
+      font-size: 20px;
+      font-weight: 500;
+      display: flex;
+      gap: 15px;
+      &:hover {
+        color: black;
+      }
+    }
+  }
+}
