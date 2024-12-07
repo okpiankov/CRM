@@ -4,18 +4,29 @@
     // background-color: #8d95ff;
     height: 100%;
     width: 100%;
+    
     section {
         background-color: var(--background-color-contentLight);
         // background-image: linear-gradient( #81a7f9, #2e5efb);
         // height: 100%; //не применяется ?
         height: auto; 
         //Чтобы при уменьшении экрана не уменьшалась ширина LeftMenu
-        width: calc(100% - 230px);
+        // min-width а не width чтобыпри сужении экрана не уменьшалась ширина статусов
+        min-width: calc(100% - 230px);
+        // width: 100%;
         display: flex;
+        flex-direction: row;
         justify-content: center;
         align-items: start;
         padding-top: 30px;
         gap: 25px;
+        @media (max-width: 1150px) {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            // grid-template-rows: 1fr 1fr;
+            min-width: auto;
+            padding-left: 10px;
+        }
 
     }
     

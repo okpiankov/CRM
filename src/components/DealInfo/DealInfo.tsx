@@ -1,3 +1,4 @@
+import { Comments } from "../Comments/Comments";
 import "./DealInfo.scss";
 
 export const DealInfo = ({ setDrawerMenu }) => {
@@ -41,13 +42,14 @@ export const DealInfo = ({ setDrawerMenu }) => {
           </label> */}
         </div>
         <div className="line"></div>
-        <form>
+        <Comments />
+        {/* <form>
           <textarea placeholder="Оставить комментарий"></textarea>
         </form>
         <div className="comment">
           <div>Комментарий: 25 ноября 2024</div>Перенес встречу на завтра на 10
           утра
-        </div>
+        </div> */}
       </div>
     </>
   );

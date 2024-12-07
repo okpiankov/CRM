@@ -1,7 +1,10 @@
 :root {
   --background-color-contentLight: #81a7f9;
+  /* --background-color-contentLight: rgb(49, 155, 255); */
+  /* --background-color-contentLight: #dce4f7; */
   /* --background-color-contentMedium:  */
   --background-color-contentLarge: #2e5efb;
+  /* --background-color-contentLarge: #0077ff; */
 }
 
 * {
@@ -32,7 +35,8 @@ body {
   margin: 0 auto;
   /* max-width: 1700px; */
   width: 100%;
-  background-color: rgb(111, 255, 229);
+  background-color: rgb(226, 0, 251);
   font-size: 18px;
   color: white;
+  height: 100%;
 }

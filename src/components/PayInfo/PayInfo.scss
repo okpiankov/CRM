@@ -71,29 +71,29 @@
         font-size: 18px;
       }
     }
-    .comment {
-      background-color: var(--background-color-contentLarge);
-      width: 360px;
-      min-height: 40px;
-      border: white 1px solid;
-      border-radius: 7px;
-      padding: 20px;
-      position: relative;
-      &::after {
-        content: "";
-        position: absolute;
-        height: 25px;
-        width: 25px;
-        bottom: -26px;
-        left: 90%;
-        background-color: var(--background-color-contentLarge);
-        clip-path: polygon(0 0, 100% 0, 100% 100%);
-      }
-      div {
-        font-size: 17px;
-        color: rgb(193, 193, 193);
-      }
-    }
+    // .commentPay {
+    //   background-color: var(--background-color-contentLarge);
+    //   width: 360px;
+    //   min-height: 40px;
+    //   border: white 1px solid;
+    //   border-radius: 7px;
+    //   padding: 7px 20px 7px 20px;
+    //   position: relative;
+    //   &::after {
+    //     content: "";
+    //     position: absolute;
+    //     height: 25px;
+    //     width: 25px;
+    //     bottom: -26px;
+    //     left: 90%;
+    //     background-color: var(--background-color-contentLarge);
+    //     clip-path: polygon(0 0, 100% 0, 100% 100%);
+    //   }
+    //   div {
+    //     font-size: 17px;
+    //     color: rgb(193, 193, 193);
+    //   }
+    // }
   }
   .showRight {
     position: fixed;

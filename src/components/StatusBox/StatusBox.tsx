@@ -2,13 +2,14 @@ import "./StatusBox.scss";
 import { CirclePlus, ArrowUp } from "lucide-react";
 import { CustomerCard } from "../CustomerCard/CustomerCard";
 import { useState } from "react";
+import { CreateDeal } from "../CreateDeal/CreateDeal";
 
-export const StatusBox = ({ setDrawerMenu, name }) => {
+export const StatusBox = ({ setDrawerMenu, columnName, columnItems, columnId }) => {
   const [addCard, setAddCard] = useState(false);
 
   return (
     <div className="statusBox">
-      <div className="status">{name}</div>
+      <div className="status">{columnName}</div>
       <div className="addCard">
         {addCard === false ? (
           <CirclePlus onClick={() => setAddCard(true)} className="plus" />
@@ -16,18 +17,17 @@ export const StatusBox = ({ setDrawerMenu, name }) => {
           <ArrowUp onClick={() => setAddCard(false)} className="arrow" />
         )}
       </div>
-      {addCard && (
-        <form>
-          <input type="text" placeholder="Наименование работ" />
-          <input type="text" placeholder="Сумма сделки" />
-          <input type="text" placeholder="Клиент" />
-          <input type="text" placeholder="Контактное лицо" />
-          <input type="text" placeholder="Телефон" />
-          <input type="email" placeholder="Email" />
-          <button>Добавить</button>
-        </form>
-      )}
-      <CustomerCard setDrawerMenu={setDrawerMenu} />
+      {addCard && <CreateDeal columnId={columnId} />}
+      {columnItems.map((item) => (
+        <CustomerCard
+          key={item.id}
+          workName={item.workName}
+          companyName={item.companyName}
+          price={item.price}
+          setDrawerMenu={setDrawerMenu}
+        />
+      ))}
+      {/* <CustomerCard setDrawerMenu={setDrawerMenu} /> */}
     </div>
   );
 };
