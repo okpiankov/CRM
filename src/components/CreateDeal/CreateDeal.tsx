@@ -1,5 +1,5 @@
 import "./CreateDeal.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import { v4 as uuid } from "uuid";
 import { DB } from "../../../utils/appwrite";
 import {
@@ -9,7 +9,7 @@ import {
 } from "../../../utils/app.constants";
 import { Navigate, useNavigate } from "react-router-dom";
 
-export const CreateDeal = (columnId) => {
+export const CreateDeal = (columnId: {columnId: string}) => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -22,25 +22,29 @@ export const CreateDeal = (columnId) => {
     customer: {
       email: string;
       customerName: string;
+      contact_person: string;
+      phone: string;
     };
     status: string;
   };
 
-  //Пробрасываю columnId статус колонки из newBoard через все компоненты, теперь каждой форме свой статус 
+  //Пробрасываю columnId статус колонки из newBoard через все компоненты, теперь каждой форме свой статус
   const [formData, setFormData] = useState<TypeDeal>({
     workName: "",
     price: 0,
     customer: {
       email: "",
       customerName: "",
+      contact_person: "",
+      phone: "",
     },
     status: columnId.columnId,
   });
   // console.log(formData);
   //Записываю в price: все значения в преобразованном числовом типе
-  formData.price=+formData?.price
+  formData.price = +formData?.price;
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     // console.log(event.target.value);
     const { name, value } = event.target;
     setFormData((prevState) => ({
@@ -50,7 +54,7 @@ export const CreateDeal = (columnId) => {
   };
   //тк в объекте есть вложенный объект то для него сделал отдельную функцию handleСustomerChange
   //и обязательно разворачиваю сначала весь state ...prev а уже внутри него снова разворачиваю ...prev.customer
-  const handleСustomerChange = (event) => {
+  const handleСustomerChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prev) => ({
       ...prev,
@@ -58,7 +62,7 @@ export const CreateDeal = (columnId) => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // uuid()- генерирует уникальный id, обязательное требование на appwrite
@@ -73,7 +77,6 @@ export const CreateDeal = (columnId) => {
           formData
         );
         console.log(response);
-    
       } catch (error) {
         console.log(error);
       } finally {
@@ -86,7 +89,6 @@ export const CreateDeal = (columnId) => {
   };
 
   return (
-    
     <form className="form" onSubmit={handleSubmit} noValidate>
       <input
         type="text"
@@ -113,6 +115,13 @@ export const CreateDeal = (columnId) => {
         // onChange={handleChange}
         placeholder="Клиент"
       />
+       <input
+        type="text"
+        value={formData.customer.contact_person}
+        name="contact_person"
+        onChange={handleСustomerChange}
+        placeholder="Контактное лицо"
+      />
       <input
         type="email"
         value={formData.customer.email}
@@ -121,35 +130,38 @@ export const CreateDeal = (columnId) => {
         // onChange={handleChange}
         placeholder="Email"
       />
-      {/* <input type="text" placeholder="Контактное лицо" />
-          <input type="text" placeholder="Телефон" />
-          <input type="email" placeholder="Email" /> */}
-      <button >{isLoading ? "Загрузка..." : "Добавить"}</button>
+      <input
+        type="text"
+        value={formData.customer.phone}
+        name="phone"
+        onChange={handleСustomerChange}
+        placeholder="Телефон"
+      />
+      <button>{isLoading ? "Загрузка..." : "Добавить"}</button>
     </form>
   );
 };
 
+// const handleСustomerChange = event => {
+//       const {name, value} = event.target
+//       setFormData(({ customer }) => ({
+//         customer: {
+//               ...customer,
+//               [name]: value
+//           }}) )}
 
-  // const handleСustomerChange = event => {
-  //       const {name, value} = event.target
-  //       setFormData(({ customer }) => ({
-  //         customer: {
-  //               ...customer,
-  //               [name]: value
-  //           }}) )}
+// const handleChange = e => {
+//   const { name, value } = e.target;
+//   if (name === 'email' || name === 'customerName') {
+//     setFormData(({ customer }) => ({
+//       customer: {
+//             ...customer,
+//             [name]: value
+//         }}) );
+//   } else {
+//     setFormData((prevState) => ({
+//       ...prevState,
+//       [name]: value,
 
-  // const handleChange = e => {
-  //   const { name, value } = e.target;
-  //   if (name === 'email' || name === 'customerName') {
-  //     setFormData(({ customer }) => ({
-  //       customer: {
-  //             ...customer,
-  //             [name]: value
-  //         }}) );
-  //   } else {
-  //     setFormData((prevState) => ({
-  //       ...prevState,
-  //       [name]: value,
-
-  //     }));
-  // };
+//     }));
+// };

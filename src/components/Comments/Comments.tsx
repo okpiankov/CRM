@@ -1,5 +1,5 @@
 import "./Comments.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext, ChangeEvent, FormEvent } from "react";
 import { v4 as uuid } from "uuid";
 import { DB } from "../../../utils/appwrite";
 import {
@@ -7,23 +7,33 @@ import {
   COLLECTION_COMMENTS,
   COLLECTION_DEALS,
 } from "../../../utils/app.constants";
+import { ContextDeal } from "../../App";
+import dayjs from "dayjs";
 
 export const Comments = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { cardId } = useContext(ContextDeal);
 
-  type TypeComment = {
+  type TypeCommentSend = {
     text: string;
     deal: string;
   };
-  // id буду получать из стора
-  const cardId = "6753194e002e3901881b";
-  const [formData, setFormData] = useState<TypeComment>({
+  //initialState для отправки формы комментария
+  const initialState = {
     text: "",
     deal: cardId,
-  });
-  console.log(formData);
+  }
 
-  const handleChange = (event) => {
+  // id буду получать из стора пример cardId ="6753194e002e3901881b";
+  const [formData, setFormData] = useState<TypeCommentSend>({ ...initialState });
+  // console.log(formData);
+
+// Функция для очистки формы после отправки
+function resetForm() {
+  Object.assign(formData, initialState)
+}
+
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -31,11 +41,21 @@ export const Comments = () => {
     }));
   };
 
-  const [newComment, setNewComment] = useState("");
 
-  const handleSubmit = (event) => {
+  type TypeCommentGet = {
+    text: string;
+    $createdAt: string;
+  };
+  //Получение нового комментария сразу после создания:
+  const [newComment, setNewComment] = useState<TypeCommentGet>({
+    text: "",
+    $createdAt: "",
+  });
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    //Создание комментария
     const createComment = async () => {
       setIsLoading(true);
       try {
@@ -46,20 +66,32 @@ export const Comments = () => {
           formData
         );
         // console.log(response);
-        setNewComment(response.text);
+        setNewComment(response);
       } catch (error) {
         console.log(error);
       } finally {
         setIsLoading(false);
-        // navigate("/");
-        // location.reload();
+        resetForm()
       }
     };
     createComment();
   };
 
-  const [comments, setComments] = useState([]);
+  type TypeCommentsGet = {
+    text: string;
+    $createdAt: string;
+    $id: string;
+  };
+  //Получение ВСЕХ комментариев
+  const [comments, setComments] = useState<TypeCommentsGet[]>([
+    {
+      text: "",
+      $createdAt: "",
+      $id: "",
+    },
+  ]);
 
+  //Получение ВСЕХ комментариев
   useEffect(() => {
     const getComments = async () => {
       setIsLoading(true);
@@ -74,7 +106,7 @@ export const Comments = () => {
       }
     };
     getComments();
-  }, []);
+  }, [newComment, cardId]);
 
   return (
     <>
@@ -85,19 +117,23 @@ export const Comments = () => {
           name="text"
           placeholder="Оставить комментарий"
         ></textarea>
-        <button type="submit">{isLoading ? "Загрузка..." : "Отправить"}</button>
+        <button  type="submit">{isLoading ? "Загрузка..." : "Сохранить"}</button>
       </form>
 
       <div className="commentsBox">
-        {newComment && (
+        {/* Получение нового комментария сразу после создания: */}
+        {newComment.text !=='' || newComment.$createdAt !== "" && (
           <div className="comment">
-            <div>Комментарий: 25 ноября 2024</div>
-            {newComment}
+            <div>Комментарий: {dayjs(newComment.$createdAt).format("DD MMMM YYYY")} </div>
+            {newComment.text}
           </div>
         )}
-        {comments?.map((comment) => (
-          <div className="comment">
-            <div>Комментарий: 25 ноября 2024</div>
+        {/* Получение ВСЕХ комментариев: */}
+        {comments.length >0 && comments?.map((comment) => (
+          <div key={comment.$id} className="comment">
+            <div>
+              Комментарий: {dayjs(comment.$createdAt).format("DD MMMM YYYY")}
+            </div>
             {comment.text}
           </div>
         ))}

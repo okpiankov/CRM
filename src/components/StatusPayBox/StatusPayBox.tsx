@@ -8,7 +8,12 @@ export const StatusPayBox = ({ setDrawerMenu, name }) => {
     
     return (
         <div className="statusBox">
-          <div className="status">{name}</div>
+          <div className="status">
+        {name}
+        <div className="triangle-right"></div>
+        <div className="triangle-left-top"></div>
+        <div className="triangle-left-bottom"></div>
+      </div>
           <div className="addCard">
             {addCard === false ? (
               <CirclePlus onClick={() => setAddCard(true)} className="plus" />

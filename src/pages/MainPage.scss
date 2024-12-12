@@ -19,6 +19,8 @@
         justify-content: center;
         align-items: start;
         padding-top: 30px;
+        padding-left: 10px;
+        padding-right: 10px;
         gap: 25px;
         @media (max-width: 1150px) {
             display: grid;
@@ -26,6 +28,13 @@
             // grid-template-rows: 1fr 1fr;
             min-width: auto;
             padding-left: 10px;
+        }
+        .loading {
+            font-size: 30px;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            
         }
 
     }

@@ -2,12 +2,12 @@ import { NavLink } from "react-router-dom";
 import "./LeftMenu.scss";
 import {
   LogOut,
-  LayoutGrid,
+  // LayoutGrid,
+  // MessageCircleMore,
   BriefcaseBusiness,
   BadgeDollarSign,
   ListOrdered,
   Users,
-  MessageCircleMore,
   Settings,
   BadgeHelp,
 } from "lucide-react";
