@@ -22,7 +22,7 @@
         padding-left: 10px;
         padding-right: 10px;
         gap: 25px;
-        @media (max-width: 1150px) {
+        @media (max-width: 1350px) {
             display: grid;
             grid-template-columns: 1fr 1fr;
             // grid-template-rows: 1fr 1fr;
@@ -32,7 +32,7 @@
         .loading {
             font-size: 30px;
             position: absolute;
-            top: 20%;
+            top: 15px;
             left: 50%;
             
         }

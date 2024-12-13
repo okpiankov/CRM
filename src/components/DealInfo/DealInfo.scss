@@ -51,7 +51,7 @@
       }
     }
     .statusBoxInfo {
-      height: 60px;
+      height: 50px;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -64,8 +64,8 @@
         background-image: linear-gradient(#81a7f9 10%, #2e5efb);
         border: var(--background-color-contentLarge) 1px solid;
         border-radius: 7px;
-        width: 180px;
-        height: 40px;
+        width: 200px;
+        height: 30px;
         display: flex;
         justify-content: center;
         align-items: start;

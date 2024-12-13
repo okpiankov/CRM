@@ -1,5 +1,5 @@
 import "./CreateDeal.scss";
-import { useState, useEffect, FormEvent, ChangeEvent } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import { v4 as uuid } from "uuid";
 import { DB } from "../../../utils/appwrite";
 import {
@@ -89,7 +89,7 @@ export const CreateDeal = (columnId: {columnId: string}) => {
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit} noValidate>
+    <form  onSubmit={handleSubmit} noValidate className="show_form">
       <input
         type="text"
         value={formData.workName}

@@ -21,3 +21,26 @@ export const KANBAN_DATA = [
       arrayDeals: [],
     },
   ];
+
+  export const KANBAN_PAYMENTS = [
+    {
+      id: "invoice",
+      name: "Счет на оплате",
+      arrayDeals: [],
+    },
+    {
+      id: "prepayment",
+      name: "Аванс",
+      arrayDeals: [],
+    },
+    {
+      id: "deferred-payment",
+      name: "Оплата с отсрочкой",
+      arrayDeals: [],
+    },
+    {
+      id: "paid",
+      name: "Оплачено",
+      arrayDeals: [],
+    },
+  ];
