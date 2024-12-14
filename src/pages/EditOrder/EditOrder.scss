@@ -31,7 +31,7 @@
           border-color: white;
         }
       }
-      button {
+      .buttonEditOrder {
         border: var(--background-color-contentLarge) 1px solid;
         border-radius: 7px;
         // width: 25%;
@@ -45,6 +45,11 @@
           color: white;
           border-color: white;
         }
+      }
+      .buttonDelete {
+        margin-top: 100px;
+        background-color: rgb(255, 137, 137);
+       
       }
     }
   }

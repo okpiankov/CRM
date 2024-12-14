@@ -133,6 +133,7 @@ export const PayList = () => {
     //И не надо  через <Outlet /> пробрасывать состояние drawerMenu
     //тк <DealInfo/> решил импортировать в StatusBoxList  ниже по вложенности уже внутри <Outlet />
     <>
+      <div className="board">Доска платежей</div>
       {drawerMenu && <PayInfo setDrawerMenu={setDrawerMenu} />}
       <section>
         {/*Прохожусь по копии KANBAN_DATA(уже с данными с сервера) и передаю пропсы в 2 вложенных компонента */}

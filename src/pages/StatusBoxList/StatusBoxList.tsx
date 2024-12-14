@@ -1,3 +1,4 @@
+import './StatusBoxList.scss'
 import { useState, useEffect } from "react";
 import { StatusBox } from "../../components/StatusBox/StatusBox";
 import { DealInfo } from "../../components/DealInfo/DealInfo";
@@ -125,6 +126,7 @@ export const StatusBoxList = () => {
     //И не надо  через <Outlet /> пробрасывать состояние drawerMenu
     //тк <DealInfo/> решил импортировать в StatusBoxList  ниже по вложенности уже внутри <Outlet />
     <>
+      <div className="board">Доска сделок</div>
       {drawerMenu && <DealInfo setDrawerMenu={setDrawerMenu} />}
       <section>
         {/*Прохожусь по копии KANBAN_DATA(уже с данными с сервера) и передаю пропсы в 2 вложенных компонента */}

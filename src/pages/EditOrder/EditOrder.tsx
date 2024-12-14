@@ -1,7 +1,7 @@
 import "./EditOrder.scss";
 import { DB } from "../../../utils/appwrite";
 import { COLLECTION_DEALS, DB_ID } from "../../../utils/app.constants";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export const EditOrder = () => {
@@ -16,14 +16,35 @@ export const EditOrder = () => {
   type TypeDeal = {
     workName: string;
     price: number;
+    // finish_date: string;
   };
 
   const [formData, setFormData] = useState<TypeDeal>({
     workName: "",
     price: 0,
+    // finish_date: "",
   });
   //Записываю в price: все значения в преобразованном числовом типе
   formData.price = +formData?.price;
+  // console.log(formData.finish_date)
+
+  //Запрос для получения данных по клиенту для начального состояния формы редактирования клиента
+  useEffect(() => {
+    const getOrder = async () => {
+      setIsLoading(true);
+      try {
+        const data = await DB.getDocument(DB_ID, COLLECTION_DEALS, id);
+        console.log(data);
+        const dataDeal = data as unknown as TypeDeal; //чтоб не ругался TypeScript
+        setFormData(dataDeal);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getOrder();
+  }, []);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     // console.log(event.target.value);
@@ -56,6 +77,22 @@ export const EditOrder = () => {
     updateDeal();
   };
 
+  //Запрос на удаление заказа
+  const deleteOrder = async () => {
+    setIsLoading(true);
+    try {
+      const data = await DB.deleteDocument(DB_ID, COLLECTION_DEALS, id);
+      console.log(data);
+      // const dataDeal = data as unknown as TypeDeal; //чтоб не ругался TypeScript
+      // setFormData(dataDeal);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+      navigate("/ordersList");
+    }
+  };
+
   return (
     <div className="wrapper">
       <span>Редактирование заказа</span>
@@ -79,10 +116,19 @@ export const EditOrder = () => {
           min="1"
           step="1"
         />
-
-        {/* <input type="date" placeholder="Дата начала работ" />
-        <input type="date" placeholder="Дата завершения работ" /> */}
-        <button>Сохранить</button>
+        {/* <input
+          type="date"
+          value={formData.finish_date}
+          name="finish_date"
+          onChange={handleChange}
+          placeholder="Дата завершения работ"
+        /> */}
+        <button className="buttonEditOrder">
+          {isLoading ? "Сохраняю..." : "Сохранить"}
+        </button>
+        <button onClick={deleteOrder} className="buttonEditOrder buttonDelete">
+          {isLoading ? "Удаление..." : "Удалить заказ"}
+        </button>
       </form>
     </div>
   );

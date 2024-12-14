@@ -6,6 +6,8 @@ import { EditCustomer } from "../pages/EditCustomer/EditCustomer";
 import { PayList } from "../pages/PayList/PayList";
 import { OrdersList } from "../pages/OrdersList/OrdersList";
 import { EditOrder } from "../pages/EditOrder/EditOrder";
+import { Help } from "../pages/Help/help";
+import { Settings } from "../pages/Settings/Settings";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ export const router = createBrowserRouter([
       {
         path: "/editOrder/:id",
         element: <EditOrder />,
+      },
+      {
+        path: "/settings",
+        element: <Settings />,
+      },
+      {
+        path: "/help",
+        element: <Help />,
       },
     ],
   },

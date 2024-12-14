@@ -13,16 +13,16 @@ type TypeCustomer = {
   email: string;
   from_source: string;
   phone: string;
-  
 };
 
 type TypeDeal = {
   $createdAt: string;
   $id: string;
-  customer: TypeCustomer; 
+  customer: TypeCustomer;
   price: number;
   status: string;
   workName: string;
+  finish_date: string;
 };
 export const OrdersList = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +55,7 @@ export const OrdersList = () => {
         <div>Наименование клиента</div>
         <div>Сумма сделки руб.</div>
         <div className="date">
-          Дата начала<br></br>Дата завершения{" "} 
+          Дата начала<br></br>Дата завершения{" "}
         </div>
         <div>Статус работ</div>
       </div>
@@ -65,13 +65,19 @@ export const OrdersList = () => {
             <div>{deal.workName}</div>
             <div>{deal.customer.customerName}</div>
             <div>{deal.price}</div>
-            <div>{dayjs(deal.$createdAt).format("DD MMMM YYYY")}</div>
+            <div>
+              {dayjs(deal.$createdAt).format("DD MMMM YYYY")}
+              <br></br>
+              {/* {deal.finish_date} */}
+            </div>
 
             <div>
-              <div>{KANBAN_DATA.find((item) => item.id === deal.status)?.name}</div>
+              <div>
+                {KANBAN_DATA.find((item) => item.id === deal.status)?.name}
+              </div>
             </div>
             {/* <NavLink to={`/editCustomer/${deal.customer.$id}`}> */}
-            <NavLink  to={`/editOrder/${deal.$id}`}>
+            <NavLink to={`/editOrder/${deal.$id}`}>
               <Pencil className="pencil" />
             </NavLink>
           </li>

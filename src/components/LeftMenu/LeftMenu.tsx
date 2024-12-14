@@ -43,14 +43,18 @@ export const LeftMenu = () => {
             Клиенты
           </li>
         </NavLink>
+        <NavLink to="/settings">
         <li>
           <Settings />
           Настройки
         </li>
+        </NavLink>
+        <NavLink to="/help">
         <li>
           <BadgeHelp />
           Помощь
         </li>
+        </NavLink>
         {/* <li>
           <LayoutGrid />
           Продукты

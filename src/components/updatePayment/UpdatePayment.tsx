@@ -29,7 +29,7 @@ export const UpdatePayment = (arrayDeals: { arrayDeals: TypeArrayDeal }) => {
   });
   //Нахожу в [] всех сделок конктеную сделку по имени клиента и вытаскиваю id сделки
   const deal = arrayDeals.arrayDeals.find(
-    (item) => item.companyName === formData.customerName
+    (item) => item.companyName == formData.customerName
   );
   console.log(deal);
 
