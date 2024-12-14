@@ -28,14 +28,27 @@
   ul {
     padding: 0;
     margin: 0;
-    height: 110px;
+    height: auto;
     display: flex;
-    justify-content: flex-start;
+    flex-direction: column;
+    // justify-content: flex-start;
     align-items: center;
     gap: 15px;
-    border-bottom: 1px solid var(--background-color-contentLarge);
     li {
-      width: 180px;
+      display: flex;
+      // justify-content: flex-start;
+      align-items: center;
+      gap: 15px;
+      height: 70px;
+      width: 100%;
+      border-bottom: 1px solid var(--background-color-contentLarge);
+    
+      div {
+        width: 180px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
     }
     .contacts {
       display: flex;

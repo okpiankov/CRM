@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { CustomersList } from "../pages/CustomersList/CustomersList";
 import { MainPage } from "../pages/MainPage";
 import { StatusBoxList } from "../pages/StatusBoxList/StatusBoxList";
-import { EditCustomerCard } from "../pages/EditCustomerCard/EditCustomerCard";
+import { EditCustomer } from "../pages/EditCustomer/EditCustomer";
 import { PayList } from "../pages/PayList/PayList";
 import { OrdersList } from "../pages/OrdersList/OrdersList";
 import { EditOrder } from "../pages/EditOrder/EditOrder";
@@ -26,15 +26,16 @@ export const router = createBrowserRouter([
         element: <CustomersList />,
       },
       {
+      //динамический роут чтобы взять потом id из url и передать его в функцию updateCustomer
+        path: "/editCustomer/:id",
+        element: <EditCustomer />,
+      },
+      {
         path: "/ordersList",
         element: <OrdersList />,
       },
       {
-        path: "/editCustomerCard",
-        element: <EditCustomerCard />,
-      },
-      {
-        path: "/editOrder",
+        path: "/editOrder/:id",
         element: <EditOrder />,
       },
     ],

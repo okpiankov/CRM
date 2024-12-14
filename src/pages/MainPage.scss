@@ -11,23 +11,24 @@
         // height: 100%; //не применяется ?
         height: auto; 
         //Чтобы при уменьшении экрана не уменьшалась ширина LeftMenu
-        // min-width а не width чтобыпри сужении экрана не уменьшалась ширина статусов
-        min-width: calc(100% - 230px);
-        // width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: start;
+        // max-width а не width чтобы при сужении экрана не уменьшалась ширина статусов
+        width: calc(100% - 230px);
+        // display: flex;
+        // flex-direction: row;
+        // justify-content: center;
+        // align-items: start;
+        // gap: 25px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        column-gap: 25px;
         padding-top: 30px;
-        padding-left: 10px;
+        padding-left: 25px;
         padding-right: 10px;
-        gap: 25px;
         @media (max-width: 1350px) {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            // grid-template-rows: 1fr 1fr;
-            min-width: auto;
-            padding-left: 10px;
+            // width: auto;
+            
         }
         .loading {
             font-size: 30px;

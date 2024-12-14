@@ -3,7 +3,7 @@ nav {
   display: flex;
   flex-direction: column;
   width: 230px;
-  height: 100vh;
+  min-height: 100vh;
   padding-top: 20px;
   .logOut {
     align-self: flex-end;

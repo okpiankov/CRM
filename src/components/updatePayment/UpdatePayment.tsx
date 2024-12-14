@@ -65,7 +65,7 @@ export const UpdatePayment = (arrayDeals: { arrayDeals: TypeArrayDeal }) => {
         location.reload();
       }
     };
-    updateStatus();
+    updateStatus(); 
   };
 
   return (
