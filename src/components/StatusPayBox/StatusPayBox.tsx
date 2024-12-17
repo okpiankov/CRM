@@ -2,7 +2,7 @@ import "./StatusPayBox.scss";
 import { CirclePlus, ArrowUp } from "lucide-react";
 import { PayCard } from "../PayCard/PayCard";
 import { useState } from "react";
-import { UpdatePayment } from "../UpdatePayment/UpdatePayment";
+import { UpdatePayment } from "../updatePayment/UpdatePayment";
 
 type TypeArrayDeals = {
   id: string;
