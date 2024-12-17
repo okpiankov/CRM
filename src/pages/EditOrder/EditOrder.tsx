@@ -28,11 +28,12 @@ export const EditOrder = () => {
   formData.price = +formData?.price;
   // console.log(formData.finish_date)
 
-  //Запрос для получения данных по клиенту для начального состояния формы редактирования клиента
+  //Запрос для получения данных по сделке для начального состояния формы редактирования сделки
   useEffect(() => {
     const getOrder = async () => {
       setIsLoading(true);
       try {
+        if (!id) return;
         const data = await DB.getDocument(DB_ID, COLLECTION_DEALS, id);
         console.log(data);
         const dataDeal = data as unknown as TypeDeal; //чтоб не ругался TypeScript
@@ -44,7 +45,7 @@ export const EditOrder = () => {
       }
     };
     getOrder();
-  }, []);
+  }, [id]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     // console.log(event.target.value);
@@ -57,10 +58,11 @@ export const EditOrder = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+//Запрос на обновление данных сделки
     const updateDeal = async () => {
       setIsLoading(true);
       try {
+        if (!id) return;
         const data = await DB.updateDocument(DB_ID, COLLECTION_DEALS, id, {
           workName: formData.workName,
           price: formData.price,
@@ -77,10 +79,11 @@ export const EditOrder = () => {
     updateDeal();
   };
 
-  //Запрос на удаление заказа
+  //Запрос на удаление сделки
   const deleteOrder = async () => {
     setIsLoading(true);
     try {
+      if (!id) return;
       const data = await DB.deleteDocument(DB_ID, COLLECTION_DEALS, id);
       console.log(data);
       // const dataDeal = data as unknown as TypeDeal; //чтоб не ругался TypeScript

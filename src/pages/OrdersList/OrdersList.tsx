@@ -8,26 +8,29 @@ import dayjs from "dayjs";
 import { KANBAN_DATA } from "../../../utils/kanban_data";
 
 type TypeCustomer = {
-  contact_person: string;
+  $id: string;
   customerName: string;
+  contact_person: string;
   email: string;
-  from_source: string;
   phone: string;
+  from_source: string;
 };
 
-type TypeDeal = {
-  $createdAt: string;
+type TypeDeals = {
   $id: string;
-  customer: TypeCustomer;
-  price: number;
-  status: string;
   workName: string;
-  finish_date: string;
+  price: number;
+  $createdAt: string;
+  customer: TypeCustomer;
+  status: string;
+  payment_status: string
+  actually_paid: number
+  finish_date: string
 };
 export const OrdersList = () => {
   const [isLoading, setIsLoading] = useState(false);
   //Для хранения всех сделок приходящих с сервера
-  const [deals, setDeals] = useState<TypeDeal[]>([]);
+  const [deals, setDeals] = useState<TypeDeals[]>([]);
 
   useEffect(() => {
     const getDeals = async () => {
@@ -35,7 +38,7 @@ export const OrdersList = () => {
       try {
         const data = await DB.listDocuments(DB_ID, COLLECTION_DEALS);
         console.log(data.documents);
-        const dataDeals = data.documents as unknown as TypeDeal[]; //чтоб не ругался TypeScript
+        const dataDeals = data.documents as unknown as TypeDeals[]; //чтоб не ругался TypeScript
         setDeals(dataDeals);
       } catch (error) {
         console.log(error);

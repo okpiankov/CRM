@@ -32,6 +32,7 @@ export const EditCustomer = () => {
     const getCustomer = async () => {
       setIsLoading(true);
       try {
+        if (!id) return;
         const data = await DB.getDocument(DB_ID, COLLECTION_CUSTOMERS, id);
         console.log(data);
         const dataCustomer = data as unknown as TypeCustomer; //чтоб не ругался TypeScript
@@ -43,7 +44,7 @@ export const EditCustomer = () => {
       }
     };
     getCustomer();
-  }, []);
+  }, [id]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     // console.log(event.target.value);
@@ -62,6 +63,7 @@ export const EditCustomer = () => {
     const updateCustomer = async () => {
       setIsLoading(true);
       try {
+        if (!id) return;
         const data = await DB.updateDocument(DB_ID, COLLECTION_CUSTOMERS, id, {
           email: formData.email,
           customerName: formData.customerName,
@@ -85,6 +87,7 @@ export const EditCustomer = () => {
   const deleteCustomer = async () => {
     setIsLoading(true);
     try {
+      if (!id) return;
       const data = await DB.deleteDocument(DB_ID, COLLECTION_CUSTOMERS, id);
       console.log(data);
       const dataCustomer = data as unknown as TypeCustomer; //чтоб не ругался TypeScript

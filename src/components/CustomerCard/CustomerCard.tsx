@@ -1,29 +1,21 @@
 import "./CustomerCard.scss";
 import { SquareMenu } from "lucide-react";
-import {  useContext } from 'react';
-import { ContextDeal } from '../../App';
-import dayjs from 'dayjs'
-
-// type TypeArrayDeals = [{
-//   id: string
-//   workName: string
-//   price: number
-//   companyName: string
-//   contact_person: string
-//   phone: string
-// }]
+// import { useContext } from "react";
+// import { ContextDeal } from "../../App";
+import dayjs from "dayjs";
+import store from "../../store/index";
 
 type TypeProps = {
-  setDrawerMenu: (drawerMenu: boolean) => void
-  workName: string
-  companyName: string
-  price: number
-  $createdAt: string
-  handleDragStart: (card: string, column: string) => void
-  cardId: string
-  columnId: string
-  columnName: string
-}; 
+  setDrawerMenu: (drawerMenu: boolean) => void;
+  workName: string;
+  companyName: string;
+  price: number;
+  $createdAt: string;
+  handleDragStart: (card: string, column: string) => void;
+  cardId: string;
+  columnId: string;
+  columnName: string;
+};
 
 export const CustomerCard = ({
   setDrawerMenu,
@@ -36,21 +28,21 @@ export const CustomerCard = ({
   columnId,
   columnName,
 }: TypeProps) => {
-
-//  export const ContextDeal = createContext({companyName,cardId});
-
-// const contextClick =  () => {
-//    const ContextDeal = createContext({companyName,cardId});
-// console.log('contextDeal',ContextDeal)
-//  }
-const  {getContextDeal} = useContext(ContextDeal);
+  //Достаю функцию getContextDeal из контекста для передачи в нее id и статуса
+  // const  {getContextDeal} = useContext(ContextDeal);
+  ////  export const ContextDeal = createContext({companyName,cardId});
+  //// const contextClick =  () => {
+  ////    const ContextDeal = createContext({companyName,cardId});
+  //// console.log('contextDeal',ContextDeal)
+  ////  }
 
   return (
     //Передачу состояния производить до самого низового компонента!
     <div
       onClick={() => {
         setDrawerMenu(true);
-        getContextDeal(cardId, columnName);
+        // getContextDeal(cardId, columnName); //Передача в react useContext
+        store.addStore(cardId, columnName, 0); //Запись id сделки и статуса в стор mobx
       }}
       //Применяю событие DragStart=, не onMouseDown= и не handleDragStart в onClick=
       //событие DragStart= передаю в самый низовой элемент который хочу перетаскивать
@@ -64,7 +56,8 @@ const  {getContextDeal} = useContext(ContextDeal);
       <div className="company">{companyName}</div>
       <div className="date">
         {/* Получаю дату с сервера в нужном формате */}
-      { dayjs($createdAt).format('DD MMMM YYYY') } <SquareMenu className="squareMenu" />
+        {dayjs($createdAt).format("DD MMMM YYYY")}{" "}
+        <SquareMenu className="squareMenu" />
         {/* <div>Колонка: {columnName}</div>
         <div>status: {columnId}</div>
         <div>id: {cardId}</div> */}

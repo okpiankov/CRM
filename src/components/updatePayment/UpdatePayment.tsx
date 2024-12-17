@@ -3,19 +3,16 @@ import { useState, FormEvent, ChangeEvent } from "react";
 import { DB } from "../../../utils/appwrite";
 import { COLLECTION_DEALS, DB_ID } from "../../../utils/app.constants";
 
-type TypeArrayDeal = [
-  {
-    id: string;
-    workName: string;
-    price: number;
-    companyName: string;
-    contact_person: string;
-    phone: string;
-    $createdAt: string;
-    actually_paid: number;
-  }
-];
-export const UpdatePayment = (arrayDeals: { arrayDeals: TypeArrayDeal }) => {
+type TypeArrayDeals = {
+  id: string;
+  workName: string;
+  price: number;
+  companyName: string;
+  $createdAt: string;
+  actually_paid: number;
+};
+
+export const UpdatePayment = (arrayDeals: { arrayDeals: TypeArrayDeals[] }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   type TypeDeal = {
@@ -54,6 +51,7 @@ export const UpdatePayment = (arrayDeals: { arrayDeals: TypeArrayDeal }) => {
     const updateStatus = async () => {
       setIsLoading(true);
       try {
+        if (!deal_id) return;
         const data = await DB.updateDocument(DB_ID, COLLECTION_DEALS, deal_id, {
           actually_paid: formData.actually_paid,
         });
@@ -65,11 +63,11 @@ export const UpdatePayment = (arrayDeals: { arrayDeals: TypeArrayDeal }) => {
         location.reload();
       }
     };
-    updateStatus(); 
+    updateStatus();
   };
 
   return (
-    <form className="show_form" onSubmit={handleSubmit} noValidate >
+    <form className="show_form" onSubmit={handleSubmit} noValidate>
       <input
         type="text"
         value={formData.customerName}

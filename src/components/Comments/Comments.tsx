@@ -1,5 +1,6 @@
 import "./Comments.scss";
-import { useState, useEffect, useContext, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+// import { ContextDeal } from "../../App";
 import { v4 as uuid } from "uuid";
 import { DB } from "../../../utils/appwrite";
 import {
@@ -7,12 +8,15 @@ import {
   COLLECTION_COMMENTS,
   COLLECTION_DEALS,
 } from "../../../utils/app.constants";
-import { ContextDeal } from "../../App";
 import dayjs from "dayjs";
+import store from "../../store/index";
 
 export const Comments = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { cardId } = useContext(ContextDeal);
+
+   // id буду получать из стора пример cardId ="6753194e002e3901881b";
+  // const { cardId } = useContext(ContextDeal);
+  const cardId = store.data.cardId;
 
   type TypeCommentSend = {
     text: string;
@@ -23,8 +27,7 @@ export const Comments = () => {
     text: "",
     deal: cardId,
   }
-
-  // id буду получать из стора пример cardId ="6753194e002e3901881b";
+  
   const [formData, setFormData] = useState<TypeCommentSend>({ ...initialState });
   // console.log(formData);
 
@@ -66,7 +69,8 @@ function resetForm() {
           formData
         );
         // console.log(response);
-        setNewComment(response);
+       const comment = response as unknown as TypeCommentGet; //чтоб не ругался TypeScript
+        setNewComment(comment);
       } catch (error) {
         console.log(error);
       } finally {

@@ -1,32 +1,26 @@
-import "./StatusPayBox.scss"
+import "./StatusPayBox.scss";
 import { CirclePlus, ArrowUp } from "lucide-react";
 import { PayCard } from "../PayCard/PayCard";
 import { useState } from "react";
-import { UpdatePayment } from "../updatePayment/updatePayment";
+import { UpdatePayment } from "../UpdatePayment/UpdatePayment";
 
+type TypeArrayDeals = {
+  id: string;
+  workName: string;
+  price: number;
+  companyName: string;
+  $createdAt: string;
+  actually_paid: number;
+};
 
-type TypeArrayDeal = [{
-  id: string
-  workName: string
-  price: number
-  companyName: string
-  contact_person: string
-  phone: string
-  $createdAt: string
-  actually_paid: number
-}]
 type TypeProps = {
-  setDrawerMenu: (drawerMenu: boolean) => void
-  columnName: string
-  arrayDeals: TypeArrayDeal
-  columnId: string
-  dragCard: string
-  setDragCard: (dragCard: string) => void
-  sourceColumn: string
-  setSourceColumn: (sourceColumn: string) => void
-  handleDragStart: (card: string, column: string) => void
-  handleDrop: (targetColumn: string) => void
-}; 
+  setDrawerMenu: (drawerMenu: boolean) => void;
+  columnName: string;
+  arrayDeals: TypeArrayDeals[];
+  columnId: string;
+  handleDragStart: (card: string, column: string) => void;
+  handleDrop: (targetColumn: string) => void;
+};
 
 export const StatusPayBox = ({
   setDrawerMenu,
@@ -34,11 +28,9 @@ export const StatusPayBox = ({
   arrayDeals,
   columnId,
   handleDragStart,
-  handleDrop
+  handleDrop,
 }: TypeProps) => {
-  
   const [addCard, setAddCard] = useState(false);
-
 
   return (
     //Событие onDrop= наступает при отпускании элемента, отпустил на колонке- пришел статус из этой колонки
@@ -85,15 +77,9 @@ export const StatusPayBox = ({
   );
 };
 
-
-
-
-
-
-
 // export const StatusPayBox = ({ setDrawerMenu, name }) => {
 //     const [addCard, setAddCard] = useState(false);
-    
+
 //     return (
 //         <div className="statusBox">
 //           <div className="status">

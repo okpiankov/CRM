@@ -1,12 +1,17 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+// import { ContextDeal } from '../../App';
 import { Comments } from "../Comments/Comments";
 import "./DealInfo.scss";
-import { ContextDeal } from '../../App';
 import { COLLECTION_DEALS, DB_ID } from "../../../utils/app.constants";
 import { DB } from "../../../utils/appwrite";
-import dayjs from 'dayjs'
+import dayjs from "dayjs";
+import store from "../../store/index";
 
-export const DealInfo = ({ setDrawerMenu }: { setDrawerMenu:  (drawerMenu: boolean) => void })  => {
+export const DealInfo = ({
+  setDrawerMenu,
+}: {
+  setDrawerMenu: (drawerMenu: boolean) => void;
+}) => {
   type TypeDeal = {
     workName: string;
     price: number;
@@ -17,10 +22,18 @@ export const DealInfo = ({ setDrawerMenu }: { setDrawerMenu:  (drawerMenu: boole
       phone: string;
     };
     status: string;
-    $createdAt: string
+    $createdAt: string;
   };
+  //Получаю из id сделки и название колонки статуса из react useContext
+  // const  { cardId, columnName } = useContext(ContextDeal);
 
-  const  { cardId, columnName } = useContext(ContextDeal);
+  //Получаю id сделки и название колонки статуса из mobx
+  // const object = store.data;
+  // console.log({...object})
+  const cardId = store.data.cardId;
+  const columnName = store.data.columnName;
+
+  
   const [isLoading, setIsLoading] = useState(false);
   const [deal, setDeal] = useState<TypeDeal>({
     workName: "",
@@ -32,16 +45,16 @@ export const DealInfo = ({ setDrawerMenu }: { setDrawerMenu:  (drawerMenu: boole
       phone: "",
     },
     status: "",
-    $createdAt: ""
+    $createdAt: "",
   });
 
   useEffect(() => {
-    const getComments = async () => {
+    const getDeal = async () => {
       setIsLoading(true);
       try {
         const data = await DB.getDocument(DB_ID, COLLECTION_DEALS, cardId);
         // console.log(data);
-        const dataDeal = data as unknown as TypeDeal;//чтоб не ругался TypeScript
+        const dataDeal = data as unknown as TypeDeal; //чтоб не ругался TypeScript
         setDeal(dataDeal);
       } catch (error) {
         console.log(error);
@@ -49,10 +62,9 @@ export const DealInfo = ({ setDrawerMenu }: { setDrawerMenu:  (drawerMenu: boole
         setIsLoading(false);
       }
     };
-    getComments();
-  }, []);
+    getDeal();
+  }, [cardId]);
 
-  
   return (
     <>
       <div onClick={() => setDrawerMenu(false)} className="overlay"></div>
@@ -85,16 +97,17 @@ export const DealInfo = ({ setDrawerMenu }: { setDrawerMenu:  (drawerMenu: boole
             <div className="date">{deal.customer.email}</div>
           </label>
           <div className="statusBoxInfo">
-          <label>
-            дата создания
-            <div className="dateInfo">{ dayjs(deal.$createdAt).format('DD MMMM YYYY') }</div>
-          </label>
-          <label>
-            статус
-            <div className="statusInfo">{columnName}</div>
-          </label>
+            <label>
+              дата создания
+              <div className="dateInfo">
+                {dayjs(deal.$createdAt).format("DD MMMM YYYY")}
+              </div>
+            </label>
+            <label>
+              статус
+              <div className="statusInfo">{columnName}</div>
+            </label>
           </div>
-          
         </div>
         <div className="line"></div>
         <Comments />

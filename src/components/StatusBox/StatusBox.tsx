@@ -4,24 +4,18 @@ import { CustomerCard } from "../CustomerCard/CustomerCard";
 import {  useState } from "react";
 import { CreateDeal } from "../CreateDeal/CreateDeal";
 
-type TypeArrayDeal = [{
+type TypeArrayDeals = {
   id: string
   workName: string
   price: number
   companyName: string
-  contact_person: string
-  phone: string
   $createdAt: string
-}]
+}
 type TypeProps = {
   setDrawerMenu: (drawerMenu: boolean) => void
   columnName: string
-  arrayDeals: TypeArrayDeal
+  arrayDeals: TypeArrayDeals[] 
   columnId: string
-  dragCard: string
-  setDragCard: (dragCard: string) => void
-  sourceColumn: string
-  setSourceColumn: (sourceColumn: string) => void
   handleDragStart: (card: string, column: string) => void
   handleDrop: (targetColumn: string) => void
 }; 
@@ -32,10 +26,10 @@ export const StatusBox = ({
   arrayDeals,
   columnId,
   handleDragStart,
-  handleDrop
+  handleDrop,
 }: TypeProps) => {
   
-  const [addCard, setAddCard] = useState(false);
+  const [addCard, setAddCard] = useState(false); 
 
 
   return (
@@ -70,11 +64,11 @@ export const StatusBox = ({
           companyName={item.companyName}
           price={item.price}
           $createdAt={item.$createdAt}
+          cardId={item.id}
           setDrawerMenu={setDrawerMenu}
           columnName={columnName}
           handleDragStart={handleDragStart}
           columnId={columnId}
-          cardId={item.id}
         />
       ))}
       {/* <CustomerCard setDrawerMenu={setDrawerMenu} /> */}

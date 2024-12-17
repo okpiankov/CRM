@@ -4,10 +4,9 @@ import { v4 as uuid } from "uuid";
 import { DB } from "../../../utils/appwrite";
 import {
   COLLECTION_DEALS,
-  COLLECTION_CUSTOMERS,
   DB_ID,
 } from "../../../utils/app.constants";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const CreateDeal = (columnId: {columnId: string}) => {
   const navigate = useNavigate();
@@ -82,7 +81,7 @@ export const CreateDeal = (columnId: {columnId: string}) => {
       } finally {
         setIsLoading(false);
         navigate("/");
-        location.reload();
+        location.reload(); 
       }
     };
     createDeals();

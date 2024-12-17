@@ -4,37 +4,37 @@ import './PayList.scss'
 import { PayInfo } from "../../components/PayInfo/PayInfo";
 import { DB } from "../../../utils/appwrite";
 import { COLLECTION_DEALS, DB_ID } from "../../../utils/app.constants";
-import { KANBAN_DATA, KANBAN_PAYMENTS } from "../../../utils/kanban_data";
+import { KANBAN_PAYMENTS } from "../../../utils/kanban_data";
 
 
 type TypeCustomer = {
-  contact_person: string;
+  $id: string;
   customerName: string;
+  contact_person: string;
   email: string;
-  from_source: string;
   phone: string;
+  from_source: string;
 };
 
-type TypeDeal = {
-  $createdAt: string;
+type TypeDeals = {
   $id: string;
-  customer: TypeCustomer;
-  price: number;
-  status: string;
   workName: string;
+  price: number;
+  $createdAt: string;
+  customer: TypeCustomer;
+  status: string;
   payment_status: string
   actually_paid: number
+  finish_date: string
 };
 
 type TypeArrayDeals = {
-  $createdAt: string;
   id: string;
   workName: string;
   price: number;
   companyName: string;
-  status: string;
-  payment_status: string
-  actually_paid: number
+  $createdAt: string;
+  actually_paid: number;
 };
 type TypeNewBoard = {
   id: string;
@@ -58,6 +58,10 @@ export const PayList = () => {
       updateStatus(targetColumn);
     }
   }
+
+  //Для подписки getDeals на измение статуса карточки
+  const[status, setStatus] = useState({});
+
   //updateStatus handleDragStart  handleDrop размещаю в родительском компоненте чтобы избежать лишних рендеров
   //dragCard - id карточки приходящее с сервера, формат, например:  "67531a730002e6427f88",
   //columnId или status - статус карточки куда нужно переместить , на выбор: "todo", "to-be-agreed", "in-progress", "produced"
@@ -68,11 +72,13 @@ export const PayList = () => {
         payment_status: targetColumn,
       });
       console.log(data);
+      const dataDeal = data as unknown as TypeDeals; //чтоб не ругался TypeScript
+      setStatus(dataDeal)
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
-      location.reload();
+      // location.reload();
     }
   };
 
@@ -80,7 +86,7 @@ export const PayList = () => {
   const [drawerMenu, setDrawerMenu] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   //Для хранения всех сделок приходящих с сервера
-  const [deals, setDeals] = useState<TypeDeal[]>([]);
+  const [deals, setDeals] = useState<TypeDeals[]>([]);
 
   //Получаю ВСЕ СДЕЛКИ
   //const data = await axios.get(DB.listDocuments(DB_ID, COLLECTION_DEALS));
@@ -91,7 +97,7 @@ export const PayList = () => {
       try {
         const data = await DB.listDocuments(DB_ID, COLLECTION_DEALS);
         console.log(data.documents);
-        const dataDeals = data.documents as unknown as TypeDeal[]; //чтоб не ругался TypeScript
+        const dataDeals = data.documents as unknown as TypeDeals[]; //чтоб не ругался TypeScript
         setDeals(dataDeals);
       } catch (error) {
         console.log(error);
@@ -100,7 +106,7 @@ export const PayList = () => {
       }
     };
     getDeals();
-  }, []);
+  }, [status]);
 
   //Делаю копию KANBAN_DATA
   const newBoard: TypeNewBoard[] = KANBAN_PAYMENTS.map((column) => ({
@@ -117,13 +123,11 @@ export const PayList = () => {
     const column = newBoard.find((col) => col.id === deal.payment_status);
     if (column) {
       column.arrayDeals.push({
-        $createdAt: deal?.$createdAt,
         id: deal?.$id,
         workName: deal?.workName,
         price: deal?.price,
         companyName: deal?.customer?.customerName,
-        status: column?.name,
-        payment_status: column?.name,
+        $createdAt: deal?.$createdAt,
         actually_paid: deal?.actually_paid,
       });
     }

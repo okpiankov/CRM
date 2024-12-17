@@ -1,8 +1,9 @@
-import { useContext } from "react";
+// import { useContext } from "react";
+// import { ContextDeal } from "../../App";
 import "./PayCard.scss";
 import { SquareMenu } from "lucide-react";
 import dayjs from "dayjs";
-import { ContextDeal } from "../../App";
+import store from "../../store/index";
 
 
 
@@ -32,20 +33,21 @@ export const PayCard = ({
   actually_paid
 }: TypeProps) => {
 
-//  export const ContextDeal = createContext({companyName,cardId});
-
+////Достаю функцию getContextDeal из контекста для передачи в нее id и статуса
+// const  {getContextDeal} = useContext(ContextDeal);
+//////  export const ContextDeal = createContext({companyName,cardId});
 // const contextClick =  () => {
-//    const ContextDeal = createContext({companyName,cardId});
-// console.log('contextDeal',ContextDeal)
-//  }
-const  {getContextDeal} = useContext(ContextDeal);
+////    const ContextDeal = createContext({companyName,cardId});
+//// console.log('contextDeal',ContextDeal)
+////  }
 
   return (
     //Передачу состояния производить до самого низового компонента!
     <div
       onClick={() => {
         setDrawerMenu(true);
-        getContextDeal(cardId, columnName, actually_paid);
+        // getContextDeal(cardId, columnName, actually_paid); //Передача в react useContext
+        store.addStore(cardId, columnName, actually_paid ); //Запись id сделки и статуса в стор mobx
       }}
       //Применяю событие DragStart=, не onMouseDown= и не handleDragStart в onClick=
       //событие DragStart= передаю в самый низовой элемент который хочу перетаскивать
@@ -68,6 +70,8 @@ const  {getContextDeal} = useContext(ContextDeal);
     </div>
   );
 };
+
+
 
 
 

@@ -1,10 +1,11 @@
 import "./PayInfo.scss";
-import { ContextDeal } from "../../App";
+// import { ContextDeal } from "../../App";
 import { COLLECTION_DEALS, DB_ID } from "../../../utils/app.constants";
 import { DB } from "../../../utils/appwrite";
 import dayjs from "dayjs";
 import { Comments } from "../Comments/Comments";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import store from "../../store/index";
 
 export const PayInfo = ({
   setDrawerMenu,
@@ -24,7 +25,14 @@ export const PayInfo = ({
     $createdAt: string;
   };
 
-  const { cardId, columnName, actually_paid } = useContext(ContextDeal);
+  // const { cardId, columnName, actually_paid } = useContext(ContextDeal);
+  //Получаю  id сделки и название колонки статуса из mobx
+  // const object = store.data;
+  // console.log({...object})
+  const cardId = store.data.cardId;
+  const columnName = store.data.columnName;
+  const actually_paid = store.data.actually_paid;
+
   const [isLoading, setIsLoading] = useState(false);
   const [deal, setDeal] = useState<TypeDeal>({
     workName: "",
@@ -40,7 +48,7 @@ export const PayInfo = ({
   });
 
   useEffect(() => {
-    const getComments = async () => {
+    const getDeal = async () => {
       setIsLoading(true);
       try {
         const data = await DB.getDocument(DB_ID, COLLECTION_DEALS, cardId);
@@ -53,8 +61,8 @@ export const PayInfo = ({
         setIsLoading(false);
       }
     };
-    getComments();
-  }, []);
+    getDeal();
+  }, [cardId]);
 
   return (
     <>
@@ -88,14 +96,14 @@ export const PayInfo = ({
             <div className="date">{deal.customer.contact_person}</div>
           </label>
           <div className="statusBoxInfo">
-          <label>
-            телефон
-            <div className="date">{deal.customer.phone}</div>
-          </label>
-          <label>
-            email
-            <div className="email">{deal.customer.email}</div>
-          </label>
+            <label>
+              телефон
+              <div className="date">{deal.customer.phone}</div>
+            </label>
+            <label>
+              email
+              <div className="email">{deal.customer.email}</div>
+            </label>
           </div>
           <div className="statusBoxInfo">
             <label>
