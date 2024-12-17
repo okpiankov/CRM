@@ -18,6 +18,7 @@ type TypeProps = {
   columnId: string
   handleDragStart: (card: string, column: string) => void
   handleDrop: (targetColumn: string) => void
+  setStatus: (status: string) => void
 }; 
 
 export const StatusBox = ({
@@ -27,6 +28,7 @@ export const StatusBox = ({
   columnId,
   handleDragStart,
   handleDrop,
+  setStatus
 }: TypeProps) => {
   
   const [addCard, setAddCard] = useState(false); 
@@ -55,7 +57,7 @@ export const StatusBox = ({
           <ArrowUp onClick={() => setAddCard(false)} className="arrow" />
         )}
       </div>
-      {addCard && <CreateDeal columnId={columnId} />}
+      {addCard && <CreateDeal columnId={columnId} setStatus={setStatus}/>}
       {/* <button onClick={updateStatus}>Изменить колонку</button> */}
       {arrayDeals.map((item) => (
         <CustomerCard

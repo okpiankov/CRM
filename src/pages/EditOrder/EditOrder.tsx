@@ -3,6 +3,7 @@ import { DB } from "../../../utils/appwrite";
 import { COLLECTION_DEALS, DB_ID } from "../../../utils/app.constants";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { validateWorkName } from "../../service/validate";
 
 export const EditOrder = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +28,7 @@ export const EditOrder = () => {
   //Записываю в price: все значения в преобразованном числовом типе
   formData.price = +formData?.price;
   // console.log(formData.finish_date)
+  const [workNameError, setWorkNameError] = useState("");
 
   //Запрос для получения данных по сделке для начального состояния формы редактирования сделки
   useEffect(() => {
@@ -54,11 +56,15 @@ export const EditOrder = () => {
       ...prevState,
       [name]: value,
     }));
+
+    if (name === "workName" && value !== " ") {
+      validateWorkName(value, setWorkNameError);
+    }
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-//Запрос на обновление данных сделки
+    //Запрос на обновление данных сделки
     const updateDeal = async () => {
       setIsLoading(true);
       try {
@@ -101,7 +107,7 @@ export const EditOrder = () => {
       <span>Редактирование заказа</span>
       <form onSubmit={handleSubmit} noValidate>
         {/* <input type="text" placeholder="Наименование клиента" /> */}
-
+        {workNameError && workNameError}
         <input
           type="text"
           value={formData.workName}

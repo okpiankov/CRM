@@ -5,8 +5,6 @@ import { SquareMenu } from "lucide-react";
 import dayjs from "dayjs";
 import store from "../../store/index";
 
-
-
 type TypeProps = {
   setDrawerMenu: (drawerMenu: boolean) => void
   workName: string

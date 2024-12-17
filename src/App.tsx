@@ -13,6 +13,7 @@ export default App;
 
 
 
+
 // // Передача id сделки и статуса через react useContext
 // // export const ContextDeal = createContext({
 // //   id: "",

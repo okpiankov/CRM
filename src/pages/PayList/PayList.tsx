@@ -150,6 +150,7 @@ export const PayList = () => {
             setDrawerMenu={setDrawerMenu}
             handleDragStart={handleDragStart}
             handleDrop={handleDrop}
+            setStatus={setStatus}
           />
         ))}
         {isLoading && <div className="loading">Загрузка...</div>}

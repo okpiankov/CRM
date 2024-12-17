@@ -58,7 +58,7 @@ export const StatusBoxList = () => {
     }
   }
 
-  //Для подписки getDeals на измение статуса карточки
+  //Для подписки функции getDeals на измение статуса карточки
   const[status, setStatus] = useState({});
 
   //updateStatus handleDragStart  handleDrop размещаю в родительском компоненте чтобы избежать лишних рендеров
@@ -149,6 +149,7 @@ export const StatusBoxList = () => {
             setDrawerMenu={setDrawerMenu}
             handleDragStart={handleDragStart}
             handleDrop={handleDrop}
+            setStatus={setStatus}
           />
         ))}
         {isLoading && <div className="loading">Загрузка...</div>}

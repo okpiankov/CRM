@@ -2,14 +2,23 @@ import "./CreateDeal.scss";
 import { useState, FormEvent, ChangeEvent } from "react";
 import { v4 as uuid } from "uuid";
 import { DB } from "../../../utils/appwrite";
+import { COLLECTION_DEALS, DB_ID } from "../../../utils/app.constants";
+// import { useNavigate } from "react-router-dom";
 import {
-  COLLECTION_DEALS,
-  DB_ID,
-} from "../../../utils/app.constants";
-import { useNavigate } from "react-router-dom";
+  validateContactPerson,
+  validateCustomerName,
+  validateEmail,
+  validateTel,
+  validateWorkName,
+} from "../../service/validate";
 
-export const CreateDeal = (columnId: {columnId: string}) => {
-  const navigate = useNavigate();
+type TypeProps = {
+  columnId: string;
+  setStatus: (status: string) => void;
+};
+
+export const CreateDeal = ({ columnId, setStatus }: TypeProps) => {
+  // const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
   //Уходящие все поля протипизировал иначе БД не будет принимать
@@ -19,29 +28,44 @@ export const CreateDeal = (columnId: {columnId: string}) => {
     workName: string;
     price: number;
     customer: {
-      email: string;
       customerName: string;
       contact_person: string;
+      email: string;
       phone: string;
     };
     status: string;
   };
 
+  //initialState для отправки формы создания сделки
   //Пробрасываю columnId статус колонки из newBoard через все компоненты, теперь каждой форме свой статус
-  const [formData, setFormData] = useState<TypeDeal>({
+  const initialState = {
     workName: "",
     price: 0,
     customer: {
-      email: "",
       customerName: "",
       contact_person: "",
+      email: "",
       phone: "",
     },
-    status: columnId.columnId,
-  });
+    status: columnId,
+  };
+
+  const [formData, setFormData] = useState<TypeDeal>({ ...initialState });
   // console.log(formData);
   //Записываю в price: все значения в преобразованном числовом типе
   formData.price = +formData?.price;
+
+  // Функция для очистки формы после отправки
+  function resetForm() {
+    Object.assign(formData, initialState);
+  }
+
+  //Стейты для валидации
+  const [workNameError, setWorkNameError] = useState("");
+  const [customerNameError, setCustomerNameError] = useState("");
+  const [contactPersonError, setContactPersonError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [telError, setTelError] = useState("");
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     // console.log(event.target.value);
@@ -50,6 +74,10 @@ export const CreateDeal = (columnId: {columnId: string}) => {
       ...prevState,
       [name]: value,
     }));
+
+    if (name === "workName" && value !== " ") {
+      validateWorkName(value, setWorkNameError);
+    }
   };
   //тк в объекте есть вложенный объект то для него сделал отдельную функцию handleСustomerChange
   //и обязательно разворачиваю сначала весь state ...prev а уже внутри него снова разворачиваю ...prev.customer
@@ -59,6 +87,19 @@ export const CreateDeal = (columnId: {columnId: string}) => {
       ...prev,
       customer: { ...prev.customer, [name]: value },
     }));
+
+    if (name === "customerName" && value !== " ") {
+      validateCustomerName(value, setCustomerNameError);
+    }
+    if (name === "contact_person" && value !== " ") {
+      validateContactPerson(value, setContactPersonError);
+    }
+    if (name === "email" && value !== " ") {
+      validateEmail(value, setEmailError);
+    }
+    if (name === "phone" && value !== " ") {
+      validateTel(value, setTelError);
+    }
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -66,7 +107,7 @@ export const CreateDeal = (columnId: {columnId: string}) => {
 
     // uuid()- генерирует уникальный id, обязательное требование на appwrite
     //передаю только одну коллекцию, а связанную с ней другую ненадо передавать COLLECTION_CUSTOMERS...
-    const createDeals = async () => {
+    const createDeal = async () => {
       setIsLoading(true);
       try {
         const response = await DB.createDocument(
@@ -76,19 +117,23 @@ export const CreateDeal = (columnId: {columnId: string}) => {
           formData
         );
         console.log(response);
+        const dataDeal = response as unknown as string; //чтоб не ругался TypeScript
+        setStatus(dataDeal);
       } catch (error) {
         console.log(error);
       } finally {
         setIsLoading(false);
-        navigate("/");
-        location.reload(); 
+        // navigate("/");
+        // location.reload();
+        resetForm();
       }
     };
-    createDeals();
+    createDeal();
   };
 
   return (
-    <form  onSubmit={handleSubmit} noValidate className="show_form">
+    <form onSubmit={handleSubmit} noValidate className="show_form">
+      {workNameError && workNameError}
       <input
         type="text"
         value={formData.workName}
@@ -106,6 +151,7 @@ export const CreateDeal = (columnId: {columnId: string}) => {
         min="1"
         step="1"
       />
+      {customerNameError && customerNameError}
       <input
         type="text"
         value={formData.customer.customerName}
@@ -114,13 +160,15 @@ export const CreateDeal = (columnId: {columnId: string}) => {
         // onChange={handleChange}
         placeholder="Клиент"
       />
-       <input
+      {contactPersonError && contactPersonError}
+      <input
         type="text"
         value={formData.customer.contact_person}
         name="contact_person"
         onChange={handleСustomerChange}
         placeholder="Контактное лицо"
       />
+      {emailError && emailError}
       <input
         type="email"
         value={formData.customer.email}
@@ -129,6 +177,7 @@ export const CreateDeal = (columnId: {columnId: string}) => {
         // onChange={handleChange}
         placeholder="Email"
       />
+      {telError && telError}
       <input
         type="text"
         value={formData.customer.phone}
@@ -164,3 +213,19 @@ export const CreateDeal = (columnId: {columnId: string}) => {
 
 //     }));
 // };
+
+// //Пробрасываю columnId статус колонки из newBoard через все компоненты, теперь каждой форме свой статус
+// const [formData, setFormData] = useState<TypeDeal>({
+//   workName: "",
+//   price: 0,
+//   customer: {
+//     customerName: "",
+//     contact_person: "",
+//     email: "",
+//     phone: "",
+//   },
+//   status: columnId,
+// });
+// // console.log(formData);
+// //Записываю в price: все значения в преобразованном числовом типе
+// formData.price = +formData?.price;

@@ -20,6 +20,7 @@ type TypeProps = {
   columnId: string;
   handleDragStart: (card: string, column: string) => void;
   handleDrop: (targetColumn: string) => void;
+  setStatus: (status: string) => void
 };
 
 export const StatusPayBox = ({
@@ -29,6 +30,7 @@ export const StatusPayBox = ({
   columnId,
   handleDragStart,
   handleDrop,
+  setStatus
 }: TypeProps) => {
   const [addCard, setAddCard] = useState(false);
 
@@ -55,7 +57,7 @@ export const StatusPayBox = ({
           <ArrowUp onClick={() => setAddCard(false)} className="arrow" />
         )}
       </div>
-      {addCard && <UpdatePayment arrayDeals={arrayDeals} />}
+      {addCard && <UpdatePayment arrayDeals={arrayDeals} setStatus={setStatus}/>}
       {/* <button onClick={updateStatus}>Изменить колонку</button> */}
       {arrayDeals.map((item) => (
         <PayCard
