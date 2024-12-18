@@ -1,50 +1,31 @@
-# React + TypeScript + Vite
+# CRM система
+### Данная CRM система полностью готова для применения в  реальной бизнес среде. В разделе «помощь» можно ознакомиться с кратким руководством по использованию
+### Деплой: https://crm-phi-three.vercel.app/
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Используемые технологии при разработке: html, scss, JavaScript, react, mobx, TypeScript
+### Используется сервер: https://appwrite.io/
 
-Currently, two official plugins are available:
+### Функционал:
+- Данная CRM система предназначена для более удобной работы с информацией по заключенным сделкам выполняемым работам и контролю платежей по ним,
+- На стороне сервера реализованы связи между коллекциями: «сделка-клиент»,  «сделка-комментарии»,
+- Реализованы 2 доски: для сделок и платежей. Сделки и платежи взаимосвязаны,
+- Можно оставлять комментарии для конкретной сделки, они будут сохраняться на сервере в БД,
+- Админ панель  по редактированию и удалению клиентов и сделок,
+- Роутинг- react-router-dom,
+- Кастомная валидация форм,
+- Для некоторых форм использую библиотеку react-hook-form,
+- Правая информационная панель реализованна через PopUp,
+- Подключен стейт менеджер mobx, 
+- Используется библиотека иконок lucide-vue-next
+- Реализована анимация,
+- Проект написан на TypeScript
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+### Установка проекта:
+Для запуска на локальной машине необходимо:\
+Установить npm зависимости:\
+npm install\
+Запустить в режиме разработки:\
+npm run dev\
+Если все прошло успешно, проект будет запущен на http://localhost:5173/
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
